@@ -6,4 +6,6 @@ python:
 install:
   - pip install -r requirements.txt
 
-script: nosetests
+script:
+  - nosetests
+  - behave user_service/tests/integration/users_crud.feature
