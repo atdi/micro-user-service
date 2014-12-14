@@ -19,5 +19,6 @@ setup(
               'behave',
               'requests',
               'alembic',
-              'pyhamcrest']
+              'pyhamcrest',
+              'tornado']
 )
