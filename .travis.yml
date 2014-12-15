@@ -1,7 +1,6 @@
 branches:
   only:
     - master
-    - customers_management
 language: python
 python:
   - "3.3"
