@@ -22,7 +22,8 @@ def save_user(context):
             'last_name': 'Last',
             'birth_date': datetime.date.today().isoformat(),
             'email': 'test@email.com',
-            'password': 'password'}
+            'password': 'password',
+            'phone': '48888'}
 
     json_user = json.dumps(user)
     headers = {'content-type': 'application/json'}
@@ -44,7 +45,8 @@ def we_have_an_user(context):
             'last_name': 'Last',
             'birth_date': datetime.date.today().isoformat(),
             'email': 'test2@email.com',
-            'password': 'password'}
+            'password': 'password',
+            'phone': '48888'}
 
     json_user = json.dumps(user)
     headers = {'content-type': 'application/json'}
@@ -60,7 +62,8 @@ def update_user(context):
             'last_name': 'Last',
             'birth_date': datetime.date.today().isoformat(),
             'email': 'test2@email.com',
-            'password': 'password'}
+            'password': 'password',
+            'phone': '48888'}
 
     json_user = json.dumps(user)
     headers = {'content-type': 'application/json'}

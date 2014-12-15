@@ -20,5 +20,6 @@ setup(
               'requests',
               'alembic',
               'pyhamcrest',
-              'tornado']
+              'tornado',
+              'mysql-connector-python']
 )
