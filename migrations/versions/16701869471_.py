@@ -40,14 +40,7 @@ def upgrade():
     mysql_default_charset='utf8',
     mysql_engine='InnoDB'
     )
-    op.create_table('roles_users',
-    sa.Column('user_id', mysql.VARCHAR(length=255), nullable=True),
-    sa.Column('role_id', mysql.VARCHAR(length=255), nullable=True),
-    sa.ForeignKeyConstraint(['role_id'], ['roles.id'], name='roles_users_ibfk_2'),
-    sa.ForeignKeyConstraint(['user_id'], ['users.id'], name='roles_users_ibfk_1'),
-    mysql_default_charset='utf8',
-    mysql_engine='InnoDB'
-    )
+
     op.create_table('roles',
     sa.Column('version', mysql.DATETIME(), nullable=True),
     sa.Column('creation_date', mysql.DATETIME(), nullable=True),
@@ -59,6 +52,28 @@ def upgrade():
     mysql_default_charset='utf8',
     mysql_engine='InnoDB'
     )
+
+    op.create_table('roles_users',
+    sa.Column('user_id', mysql.VARCHAR(length=255), nullable=True),
+    sa.Column('role_id', mysql.VARCHAR(length=255), nullable=True),
+    sa.ForeignKeyConstraint(['role_id'], ['roles.id'], name='roles_users_ibfk_2'),
+    sa.ForeignKeyConstraint(['user_id'], ['users.id'], name='roles_users_ibfk_1'),
+    mysql_default_charset='utf8',
+    mysql_engine='InnoDB'
+    )
+
+    op.create_table('countries',
+    sa.Column('version', mysql.DATETIME(), nullable=True),
+    sa.Column('creation_date', mysql.DATETIME(), nullable=True),
+    sa.Column('updated_by', mysql.VARCHAR(length=120), nullable=True),
+    sa.Column('id', mysql.INTEGER(display_width=11), nullable=False),
+    sa.Column('code', mysql.VARCHAR(length=3), nullable=False),
+    sa.Column('name', mysql.VARCHAR(length=100), nullable=False),
+    sa.PrimaryKeyConstraint('id'),
+    mysql_default_charset='utf8',
+    mysql_engine='InnoDB'
+    )
+
     op.create_table('regions',
     sa.Column('version', mysql.DATETIME(), nullable=True),
     sa.Column('creation_date', mysql.DATETIME(), nullable=True),
@@ -72,6 +87,20 @@ def upgrade():
     mysql_default_charset='utf8',
     mysql_engine='InnoDB'
     )
+
+    op.create_table('cities',
+    sa.Column('version', mysql.DATETIME(), nullable=True),
+    sa.Column('creation_date', mysql.DATETIME(), nullable=True),
+    sa.Column('updated_by', mysql.VARCHAR(length=120), nullable=True),
+    sa.Column('id', mysql.INTEGER(display_width=11), nullable=False),
+    sa.Column('name', mysql.VARCHAR(length=100), nullable=False),
+    sa.Column('region_id', mysql.INTEGER(display_width=11), autoincrement=False, nullable=True),
+    sa.ForeignKeyConstraint(['region_id'], ['regions.id'], name='cities_ibfk_1'),
+    sa.PrimaryKeyConstraint('id'),
+    mysql_default_charset='utf8',
+    mysql_engine='InnoDB'
+    )
+
     op.create_table('customers',
     sa.Column('version', mysql.DATETIME(), nullable=True),
     sa.Column('creation_date', mysql.DATETIME(), nullable=True),
@@ -90,29 +119,7 @@ def upgrade():
     mysql_default_charset='utf8',
     mysql_engine='InnoDB'
     )
-    op.create_table('countries',
-    sa.Column('version', mysql.DATETIME(), nullable=True),
-    sa.Column('creation_date', mysql.DATETIME(), nullable=True),
-    sa.Column('updated_by', mysql.VARCHAR(length=120), nullable=True),
-    sa.Column('id', mysql.INTEGER(display_width=11), nullable=False),
-    sa.Column('code', mysql.VARCHAR(length=3), nullable=False),
-    sa.Column('name', mysql.VARCHAR(length=100), nullable=False),
-    sa.PrimaryKeyConstraint('id'),
-    mysql_default_charset='utf8',
-    mysql_engine='InnoDB'
-    )
-    op.create_table('cities',
-    sa.Column('version', mysql.DATETIME(), nullable=True),
-    sa.Column('creation_date', mysql.DATETIME(), nullable=True),
-    sa.Column('updated_by', mysql.VARCHAR(length=120), nullable=True),
-    sa.Column('id', mysql.INTEGER(display_width=11), nullable=False),
-    sa.Column('name', mysql.VARCHAR(length=100), nullable=False),
-    sa.Column('region_id', mysql.INTEGER(display_width=11), autoincrement=False, nullable=True),
-    sa.ForeignKeyConstraint(['region_id'], ['regions.id'], name='cities_ibfk_1'),
-    sa.PrimaryKeyConstraint('id'),
-    mysql_default_charset='utf8',
-    mysql_engine='InnoDB'
-    )
+
     ### end Alembic commands ###
 
 
