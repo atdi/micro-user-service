@@ -11,7 +11,7 @@ Used frameworks and batteries are:
  - requests for integration tests
 
 
- ## Code Status
+## Code Status
 
 * [![Build Status](https://travis-ci.org/atdi/micro-user-service.svg?branch=master)](https://travis-ci.org/atdi/micro-user-service)
 
