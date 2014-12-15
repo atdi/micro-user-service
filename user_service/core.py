@@ -38,7 +38,6 @@ def generate_uuid():
 
 
 class AbstractModel(CRUDMixin):
-    id = db.Column(db.String(255), primary_key=True, default=generate_uuid)
     version = db.Column(db.DateTime, onupdate=datetime.utcnow)
     creation_date = db.Column(db.DateTime, default=datetime.utcnow)
     updated_by = db.Column(db.String(120), nullable=True)
