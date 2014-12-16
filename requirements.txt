@@ -10,3 +10,4 @@ requests
 alembic
 pyhamcrest
 tornado
+flask-fixtures
