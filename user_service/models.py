@@ -93,7 +93,8 @@ class City(BaseModel):
 class Customer(BaseModel):
     id = db.Column(db.String(255), primary_key=True, default=generate_uuid)
     name = db.Column(db.String(100), nullable=False)
-    vat_number = db.Column(db.String(30), unique=True, nullable=False)
+    type = db.Column(db.String(2), nullable=False)
+    unique_id = db.Column(db.String(30), unique=True, nullable=False)
     phone = db.Column(db.String(14), nullable=False)
     address = db.Column(db.String(255), nullable=False)
     iban = db.Column(db.String(50), nullable=True)
@@ -101,7 +102,23 @@ class Customer(BaseModel):
     swift = db.Column(db.String(20), nullable=True)
     city_id = db.Column(db.Integer, db.ForeignKey('cities.id'))
     city = db.relationship(City)
+    addresses = db.relationship("Address", backref="customer")
     __tablename__ = 'customers'
+
+    def to_dict(self):
+        return to_dict(self)
+
+
+class Address(BaseModel):
+    id = db.Column(db.String(255), primary_key=True, default=generate_uuid)
+    contact_person = db.Column(db.String(255), nullable=False)
+    phone = db.Column(db.String(14), nullable=False)
+    address = db.Column(db.String(255), nullable=False)
+    is_default = db.Column(db.Boolean, nullable=False, default=False)
+    customer_id = db.Column(db.Integer, db.ForeignKey('customers.id'))
+    city_id = db.Column(db.Integer, db.ForeignKey('cities.id'))
+    city = db.relationship(City)
+    __tablename__ = 'addresses'
 
     def to_dict(self):
         return to_dict(self)

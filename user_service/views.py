@@ -3,7 +3,7 @@ from .models import User, Role
 from flask import request, jsonify, abort
 from user_service import app, rest_manager
 from datetime import datetime
-from user_service.models import Country, Region, City, Customer
+from user_service.models import Country, Region, City, Customer, Address
 
 
 rest_manager.create_api(User, methods=['GET', 'POST', 'PUT', 'DELETE'])
@@ -12,6 +12,7 @@ rest_manager.create_api(Country, methods=['GET', 'POST', 'PUT', 'DELETE'])
 rest_manager.create_api(Region, methods=['GET', 'POST', 'PUT', 'DELETE'])
 rest_manager.create_api(City, methods=['GET', 'POST', 'PUT', 'DELETE'])
 rest_manager.create_api(Customer, methods=['GET', 'POST', 'PUT', 'DELETE'])
+rest_manager.create_api(Address, methods=['GET', 'POST', 'PUT', 'DELETE'])
 
 
 @app.route("/")
