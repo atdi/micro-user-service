@@ -29,10 +29,8 @@ class User(BaseModel):
     login_count = db.Column(db.Integer, nullable=True)
     roles = db.relationship('Role', secondary=roles_users, backref=db.backref('users', lazy='dynamic'))
     customer_id = db.Column(db.String(255), db.ForeignKey('customers.id'),nullable=True)
+    customer = db.relationship('Customer')
     __tablename__ = 'users'
-
-    def to_dict(self):
-        return to_dict(self)
 
     def is_active(self):
         return self.active
@@ -64,9 +62,6 @@ class Country(BaseModel):
     regions = db.relationship("Region", backref="country")
     __tablename__ = 'countries'
 
-    def to_dict(self):
-        return to_dict(self)
-
 
 class Region(BaseModel):
     id = db.Column(db.Integer, primary_key=True)
@@ -76,18 +71,12 @@ class Region(BaseModel):
     cities = db.relationship("City", backref="region")
     __tablename__ = 'regions'
 
-    def to_dict(self):
-        return to_dict(self)
-
 
 class City(BaseModel):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
     region_id = db.Column(db.Integer, db.ForeignKey('regions.id'))
     __tablename__ = 'cities'
-
-    def to_dict(self):
-        return to_dict(self)
 
 
 class Customer(BaseModel):
@@ -105,9 +94,6 @@ class Customer(BaseModel):
     addresses = db.relationship("Address", backref="customer")
     __tablename__ = 'customers'
 
-    def to_dict(self):
-        return to_dict(self)
-
 
 class Address(BaseModel):
     id = db.Column(db.String(255), primary_key=True, default=generate_uuid)
@@ -119,6 +105,3 @@ class Address(BaseModel):
     city_id = db.Column(db.Integer, db.ForeignKey('cities.id'))
     city = db.relationship(City)
     __tablename__ = 'addresses'
-
-    def to_dict(self):
-        return to_dict(self)

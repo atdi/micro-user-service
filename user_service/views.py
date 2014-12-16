@@ -20,6 +20,14 @@ def index():
     return "OK"
 
 
+@app.route("/api/customers/<customer_id>/address", methods=['GET'])
+def get_default_address(customer_id):
+    address = Address.query.filter_by(customer_id=customer_id).first()
+    if address:
+        return jsonify(address.to_dict()), 200
+    abort(404)
+
+
 @app.route("/users/login", methods=['POST'])
 def login():
     email = request.json['email']

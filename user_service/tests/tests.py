@@ -8,7 +8,7 @@ from flask.ext.testing import TestCase
 from user_service.core import BaseModel
 from user_service.tests.config import basedir
 from user_service import init_app, app
-from user_service.models import User, Role, Country, Region, City
+from user_service.models import User, Role, Country, Region, City, Customer
 
 
 def create_database(app):
@@ -76,7 +76,7 @@ def create_cities():
          region_id='2').save()
 
 
-class UserEndpointsTest(TestCase):
+class UserServiceTestCase(TestCase):
     def create_app(self):
         init_app('user_service.tests.config')
         return app
@@ -86,6 +86,9 @@ class UserEndpointsTest(TestCase):
 
     def tearDown(self):
         os.remove(os.path.join(basedir, 'users.db'))
+
+
+class UserEndpointsTest(UserServiceTestCase):
 
     def test_post_user(self):
         user = {'first_name': 'First',
@@ -191,7 +194,6 @@ class UserEndpointsTest(TestCase):
         self.assertStatus(response, 200)
         self.assertEqual('OK', response.json['status'])
 
-
     def test_login_user_not_found(self):
         user_ = {'email': 'test111@email.com',
                  'password': 'password'}
@@ -199,18 +201,11 @@ class UserEndpointsTest(TestCase):
         json_user = json.dumps(user_)
         response = self.client.post('/users/login', data=json_user, content_type='application/json')
         self.assertStatus(response, 404)
+        self.assertEquals(404, response.json['code'])
 
 
-class GeoEndpointsTest(TestCase):
-    def create_app(self):
-        init_app('user_service.tests.config')
-        return app
 
-    def setUp(self):
-        create_database(self.app)
-
-    def tearDown(self):
-        os.remove(os.path.join(basedir, 'users.db'))
+class GeoEndpointsTest(UserServiceTestCase):
 
     def test_post_country_region_city(self):
         country = {'id': '1',
@@ -247,4 +242,40 @@ class GeoEndpointsTest(TestCase):
         response = self.client.get('/api/cities?q=%s' % json.dumps(dict(filters=filters)))
         self.assertStatus(response, 200)
         self.assertEqual(response.json['num_results'], 1)
+
+
+class CustomerEndpointsTest(UserServiceTestCase):
+    def test_add_customer(self):
+        create_cities()
+        customer = {"name": "Aurel Avramescu",
+                    "type": "PF",
+                    "unique_id": "1111111111",
+                    "phone": "0788888",
+                    "address": "Martirilor",
+                    "city_id": "1" }
+        json_customer = json.dumps(customer)
+        response = self.client.post('/api/customers', data=json_customer, content_type='application/json')
+        self.assertStatus(response, 201)
+        self.assertEquals('Botosani', response.json['city']['name'])
+        customer_id = response.json['id']
+        address = {
+            "contact_person": "Aurel Avramescu",
+            "phone": "0722222",
+            "address": "Berlin Adresa",
+            "is_default": True,
+            "customer_id": customer_id,
+            "city_id": 1
+        }
+        json_address = json.dumps(address)
+        response = self.client.post('/api/addresses', data=json_address, content_type='application/json')
+        self.assertStatus(response, 201)
+        address_id = response.json['id']
+        response = self.client.get('/api/addresses/' + address_id)
+        self.assert200(response)
+        response = self.client.get('/api/customers/' + customer_id + '/address')
+        self.assert200(response)
+
+
+
+
 

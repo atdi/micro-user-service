@@ -9,6 +9,7 @@ db = SQLAlchemy()
 
 rest_manager = APIManager(app, flask_sqlalchemy_db=db)
 from user_service.views import *
+from user_service.errors import *
 
 
 def init_app(settings='user_service.config'):
