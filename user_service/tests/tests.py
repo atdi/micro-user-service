@@ -76,7 +76,7 @@ def create_cities():
          region_id='2').save()
 
 
-class UserEndpointsTest(TestCase):
+class UserServiceTestCase(TestCase):
     def create_app(self):
         init_app('user_service.tests.config')
         return app
@@ -86,6 +86,9 @@ class UserEndpointsTest(TestCase):
 
     def tearDown(self):
         os.remove(os.path.join(basedir, 'users.db'))
+
+
+class UserEndpointsTest(UserServiceTestCase):
 
     def test_post_user(self):
         user = {'first_name': 'First',
@@ -201,16 +204,7 @@ class UserEndpointsTest(TestCase):
         self.assertStatus(response, 404)
 
 
-class GeoEndpointsTest(TestCase):
-    def create_app(self):
-        init_app('user_service.tests.config')
-        return app
-
-    def setUp(self):
-        create_database(self.app)
-
-    def tearDown(self):
-        os.remove(os.path.join(basedir, 'users.db'))
+class GeoEndpointsTest(UserServiceTestCase):
 
     def test_post_country_region_city(self):
         country = {'id': '1',
