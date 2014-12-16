@@ -3,6 +3,7 @@ from datetime import datetime
 from sqlalchemy.ext.declarative import declarative_base
 from user_service import db
 import uuid
+from flask.ext.restless.helpers import to_dict
 
 
 class CRUDMixin(object):
@@ -31,6 +32,9 @@ class CRUDMixin(object):
     def delete(self, commit=True):
         db.session.delete(self)
         return commit and db.session.commit()
+
+    def to_dict(self):
+        return to_dict(self)
 
 
 def generate_uuid():
