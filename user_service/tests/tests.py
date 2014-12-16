@@ -8,7 +8,7 @@ from flask.ext.testing import TestCase
 from user_service.core import BaseModel
 from user_service.tests.config import basedir
 from user_service import init_app, app
-from user_service.models import User, Role, Country, Region, City
+from user_service.models import User, Role, Country, Region, City, Customer
 
 
 def create_database(app):
@@ -202,6 +202,8 @@ class UserEndpointsTest(UserServiceTestCase):
         json_user = json.dumps(user_)
         response = self.client.post('/users/login', data=json_user, content_type='application/json')
         self.assertStatus(response, 404)
+        self.assertEquals(404, response.json['code'])
+
 
 
 class GeoEndpointsTest(UserServiceTestCase):
@@ -241,4 +243,21 @@ class GeoEndpointsTest(UserServiceTestCase):
         response = self.client.get('/api/cities?q=%s' % json.dumps(dict(filters=filters)))
         self.assertStatus(response, 200)
         self.assertEqual(response.json['num_results'], 1)
+
+
+class CustomerEndpointsTest(UserServiceTestCase):
+    def test_add_customer(self):
+        create_cities()
+        customer = {"name": "Aurel Avramescu",
+                    "type": "PF",
+                    "unique_id": "1111111111",
+                    "phone": "0788888",
+                    "address": "Martirilor",
+                    "city_id": "1" }
+        json_customer = json.dumps(customer)
+        response = self.client.post('/api/customers', data=json_customer, content_type='application/json')
+        self.assertStatus(response, 201)
+        self.assertEquals('Botosani', response.json['city']['name'])
+
+
 
