@@ -29,6 +29,7 @@ class User(BaseModel):
     login_count = db.Column(db.Integer, nullable=True)
     roles = db.relationship('Role', secondary=roles_users, backref=db.backref('users', lazy='dynamic'))
     customer_id = db.Column(db.String(255), db.ForeignKey('customers.id'),nullable=True)
+    customer = db.relationship('Customer')
     __tablename__ = 'users'
 
     def is_active(self):
