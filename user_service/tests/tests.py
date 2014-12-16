@@ -194,7 +194,6 @@ class UserEndpointsTest(UserServiceTestCase):
         self.assertStatus(response, 200)
         self.assertEqual('OK', response.json['status'])
 
-
     def test_login_user_not_found(self):
         user_ = {'email': 'test111@email.com',
                  'password': 'password'}
@@ -258,6 +257,25 @@ class CustomerEndpointsTest(UserServiceTestCase):
         response = self.client.post('/api/customers', data=json_customer, content_type='application/json')
         self.assertStatus(response, 201)
         self.assertEquals('Botosani', response.json['city']['name'])
+        customer_id = response.json['id']
+        address = {
+            "contact_person": "Aurel Avramescu",
+            "phone": "0722222",
+            "address": "Berlin Adresa",
+            "is_default": True,
+            "customer_id": customer_id,
+            "city_id": 1
+        }
+        json_address = json.dumps(address)
+        response = self.client.post('/api/addresses', data=json_address, content_type='application/json')
+        self.assertStatus(response, 201)
+        address_id = response.json['id']
+        response = self.client.get('/api/addresses/' + address_id)
+        self.assert200(response)
+        response = self.client.get('/api/customers/' + customer_id + '/address')
+        self.assert200(response)
+
+
 
 
 
