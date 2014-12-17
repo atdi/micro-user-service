@@ -7,6 +7,10 @@ from sqlalchemy import create_engine
 from user_service.core import BaseModel
 from user_service.tests.integration.config import basedir
 import os
+# Tornado imports
+from tornado.wsgi import WSGIContainer
+from tornado.httpserver import HTTPServer
+from tornado.ioloop import IOLoop
 
 
 def create_database(app):
@@ -15,25 +19,20 @@ def create_database(app):
 
 
 def shutdown_server():
-    func = request.environ.get('werkzeug.server.shutdown')
-    if func is None:
-        raise RuntimeError('Not running with the Werkzeug Server')
-    func()
-
-
-@app.route('/shutdown')
-def shutdown():
-    shutdown_server()
+    IOLoop.instance().stop()
 
 
 def before_all(context):
     init_app(settings='user_service.tests.integration.config')
     create_database(app)
-    context.server = app
-    context.thread = threading.Thread(target=app.run)
+    http_server = HTTPServer(WSGIContainer(app))
+    http_server.listen(5000)
+    ioloop = IOLoop.instance()
+    context.server = http_server
+    context.thread = threading.Thread(target=ioloop.start)
     context.thread.start()
 
 
 def after_all(context):
-    requests.get('http://localhost:5000/shutdown')
+    shutdown_server()
     os.remove(os.path.join(basedir, 'users.db'))
