@@ -1,8 +1,6 @@
 # coding: utf-8
 from user_service import app, init_app
-from flask import request
 import threading
-import requests
 from sqlalchemy import create_engine
 from user_service.core import BaseModel
 from user_service.tests.integration.config import basedir
