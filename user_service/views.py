@@ -28,7 +28,7 @@ def get_default_address(customer_id):
     abort(404)
 
 
-@app.route("/users/login", methods=['POST'])
+@app.route("/api/users/login", methods=['POST'])
 def login():
     email = request.json['email']
     password = request.json['password']
@@ -39,7 +39,7 @@ def login():
     abort(404)
 
 
-@app.route("/users/logout", methods=['POST'])
+@app.route("/api/users/logout", methods=['POST'])
 def logout():
     user_id = request.json['user_id']
     user = User.get_by_id(user_id)
