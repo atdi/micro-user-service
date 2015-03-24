@@ -101,7 +101,7 @@ class Address(BaseModel):
     phone = db.Column(db.String(14), nullable=False)
     address = db.Column(db.String(255), nullable=False)
     is_default = db.Column(db.Boolean, nullable=False, default=False)
-    customer_id = db.Column(db.Integer, db.ForeignKey('customers.id'))
+    customer_id = db.Column(db.String(255), db.ForeignKey('customers.id'))
     city_id = db.Column(db.Integer, db.ForeignKey('cities.id'))
     city = db.relationship(City)
     __tablename__ = 'addresses'
