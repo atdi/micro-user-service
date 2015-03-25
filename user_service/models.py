@@ -44,6 +44,9 @@ class User(BaseModel):
         assert '@' in address
         return address
 
+    def to_dict(self):
+        return to_dict(self, deep={'roles': []})
+
 
 class Role(BaseModel):
     id = db.Column(db.String(255), primary_key=True, default=generate_uuid)
