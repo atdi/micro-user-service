@@ -43,7 +43,6 @@ def login():
 def find_user_by_email(email):
     user = User.query.filter_by(email=email).first()
     if user:
-        login_user(user)
         return jsonify(user.to_dict()), 200
     abort(404)
 
