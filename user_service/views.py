@@ -39,6 +39,15 @@ def login():
     abort(404)
 
 
+@app.route("/api/users/email/<email>", methods=['GET'])
+def find_user_by_email(email):
+    user = User.query.filter_by(email=email).first()
+    if user:
+        login_user(user)
+        return jsonify(user.to_dict()), 200
+    abort(404)
+
+
 @app.route("/api/users/logout", methods=['POST'])
 def logout():
     user_id = request.json['user_id']
