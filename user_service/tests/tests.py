@@ -10,7 +10,7 @@ from user_service.core import BaseModel
 from user_service.tests.config import basedir
 from user_service.models import User, Role, Country, Region, City, Customer
 
-
+init_app('user_service.tests.config')
 def create_database(test_app):
     engine = create_engine(test_app.config['SQLALCHEMY_DATABASE_URI'], convert_unicode=True)
     BaseModel.metadata.create_all(bind=engine)
@@ -79,7 +79,6 @@ def create_cities():
 class UserServiceTestCase(TestCase):
 
     def create_app(self):
-        init_app('user_service.tests.config')
         return app
 
     def setUp(self):
@@ -246,7 +245,7 @@ class GeoEndpointsTest(UserServiceTestCase):
 
 class CustomerEndpointsTest(UserServiceTestCase):
     def test_add_customer(self):
-        pass
+        print("pass")
         """create_cities()
         customer = {"name": "Aurel Avramescu",
                     "type": "PF",
