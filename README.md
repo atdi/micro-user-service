@@ -17,4 +17,4 @@ Used frameworks and batteries are:
 
 ## License
 
-Ruby on Rails is released under the [GPLv3 License](http://www.gnu.org/copyleft/gpl.html).
+Micro users service is released under the [GPLv3 License](http://www.gnu.org/copyleft/gpl.html).
