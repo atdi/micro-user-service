@@ -85,7 +85,7 @@ def login_user(context):
 
     json_user = json.dumps(user)
     headers = {'content-type': 'application/json'}
-    response = requests.post(HOST+'/users/login', data=json_user, headers=headers)
+    response = requests.post(HOST+'/api/users/login', data=json_user, headers=headers)
     context.response = response
 
 
