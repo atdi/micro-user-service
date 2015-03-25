@@ -3,7 +3,7 @@
 from user_service import db
 from .core import BaseModel, generate_uuid
 from sqlalchemy.orm import validates
-from flask.ext.restless.helpers import to_dict
+from flask_restless.helpers import to_dict
 
 
 roles_users = db.Table('roles_users', BaseModel.metadata,

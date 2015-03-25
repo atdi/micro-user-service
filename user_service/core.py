@@ -3,7 +3,7 @@ from datetime import datetime
 from sqlalchemy.ext.declarative import declarative_base
 from user_service import db
 import uuid
-from flask.ext.restless.helpers import to_dict
+from flask_restless.helpers import to_dict
 
 
 class CRUDMixin(object):
