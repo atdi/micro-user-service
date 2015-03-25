@@ -5,14 +5,14 @@ import datetime
 from sqlalchemy import create_engine
 from flask import json
 from flask.ext.testing import TestCase
+from user_service import init_app, app
 from user_service.core import BaseModel
 from user_service.tests.config import basedir
-from user_service import init_app, app
 from user_service.models import User, Role, Country, Region, City, Customer
 
 
-def create_database(app):
-    engine = create_engine(app.config['SQLALCHEMY_DATABASE_URI'], convert_unicode=True)
+def create_database(test_app):
+    engine = create_engine(test_app.config['SQLALCHEMY_DATABASE_URI'], convert_unicode=True)
     BaseModel.metadata.create_all(bind=engine)
 
 
@@ -77,6 +77,7 @@ def create_cities():
 
 
 class UserServiceTestCase(TestCase):
+
     def create_app(self):
         init_app('user_service.tests.config')
         return app
@@ -202,7 +203,6 @@ class UserEndpointsTest(UserServiceTestCase):
         response = self.client.post('/api/users/login', data=json_user, content_type='application/json')
         self.assertStatus(response, 404)
         self.assertEquals(404, response.json['code'])
-
 
 
 class GeoEndpointsTest(UserServiceTestCase):

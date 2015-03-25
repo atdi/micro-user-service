@@ -5,7 +5,7 @@ from flask.ext.sqlalchemy import SQLAlchemy
 
 
 app = Flask(__name__)
-db = SQLAlchemy()
+db = SQLAlchemy(app)
 
 rest_manager = APIManager(app, flask_sqlalchemy_db=db)
 from user_service.views import *
