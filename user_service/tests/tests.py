@@ -185,11 +185,11 @@ class UserEndpointsTest(UserServiceTestCase):
                  'password': 'password'}
 
         json_user = json.dumps(user_)
-        response = self.client.post('/users/login', data=json_user, content_type='application/json')
+        response = self.client.post('/api/users/login', data=json_user, content_type='application/json')
         self.assertStatus(response, 200)
         self.assertEqual(1, response.json['login_count'])
 
-        response = self.client.post('/users/logout', data=json.dumps({'user_id': response.json['id']}),
+        response = self.client.post('/api/users/logout', data=json.dumps({'user_id': response.json['id']}),
                                     content_type='application/json')
         self.assertStatus(response, 200)
         self.assertEqual('OK', response.json['status'])
@@ -199,7 +199,7 @@ class UserEndpointsTest(UserServiceTestCase):
                  'password': 'password'}
 
         json_user = json.dumps(user_)
-        response = self.client.post('/users/login', data=json_user, content_type='application/json')
+        response = self.client.post('/api/users/login', data=json_user, content_type='application/json')
         self.assertStatus(response, 404)
         self.assertEquals(404, response.json['code'])
 
