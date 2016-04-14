@@ -17,4 +17,4 @@ Used frameworks and batteries are:
 
 ## License
 
-Micro users service is released under the [Apache License v2](http://www.apache.org/licenses/LICENSE-2.0).
+Micro users service is released under [Apache License v2](http://www.apache.org/licenses/LICENSE-2.0).
